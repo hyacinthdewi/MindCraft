@@ -1,501 +1,483 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pixel HTML Lessons Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pixel HTML Lessons Dashboard</title>
 
-/* ===== WORLD BACKGROUND ===== */
-body{
-  font-family:'Press Start 2P', cursive;
-  background:linear-gradient(#87e4ff,#c8f7b0);
-  padding:20px;
-  overflow:hidden;
-  font-size:10px;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    /* ========== Theme variables ========== */
+    :root{
+      --bg-top: #87e4ff;
+      --bg-bottom: #c8f7b0;
+      --app-top: #8fe9ff;
+      --app-bottom: #7dd37d;
 
-.exit-btn{
-  position:fixed;
-  top:480px;
-  left:202px;
-  background:#ff4d4d;
-  color:#fff;
-  text-decoration:none;
-  font-family:'Press Start 2P';
-  padding:6px 10px;
-  border-radius:8px;
-  box-shadow: inset -2px -2px 0 rgba(0,0,0,.25), 0 3px 0 #a30000;
-  z-index:1000;
-  font-size:9px;
-  transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
-}
-.exit-btn:hover{
-  transform:translateY(-2px);
-  box-shadow: inset -2px -2px 0 rgba(0,0,0,.25), 0 5px 0 #a30000;
-}
+      --sidebar-bg: #8b5a2b;
+      --sidebar-shadow: #5c3a1a;
+      --accent-yellow: #ffcc4d;
+      --accent-yellow-dark: #e09c2b;
+      --accent-blue: #4e91ff;
+      --accent-blue-dark: #1f4fb8;
+      --accent-green: #00c98b;
+      --code-bg: #fff8db; /* light code background to match other panels */
+      --code-fg: #2b2b2b;
 
-/* ===== MAIN APP ===== */
-.app{
-  max-width:1200px;
-  margin:0 auto;
-  height:calc(100vh - 40px);
-  background:linear-gradient(#8fe9ff 55%, #7dd37d);
-  border-radius:24px;
-  box-shadow:0 30px 70px rgba(0,0,0,.45);
-  display:grid;
-  grid-template-columns:260px 1fr;
-  gap:18px;
-  padding:18px;
-}
+      --pixel-offset: 6px;
+      --radius: 12px;
+      --font: 'Press Start 2P', monospace;
+      --base-font: 13px;
+    }
 
-/* ===== SIDEBAR ===== */
-.sidebar{
-  background:#8b5a2b;
-  border-radius:18px;
-  padding:18px;
-  box-shadow:
-    inset -6px -6px 0 rgba(0,0,0,.25),
-    0 8px 0 #5c3a1a;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-}
+    /* ========== Reset & base ========== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      padding:20px;
+      font-family:var(--font);
+      background:linear-gradient(var(--bg-top), var(--bg-bottom));
+      font-size:var(--base-font);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:#111;
+      line-height:1.3;
+    }
 
-.brand h1{
-  font-size:14px;
-  text-align:center;
-  text-shadow:2px 2px #000;
-}
-.brand p{
-  font-size:8px;
-  text-align:center;
-  opacity:.9;
-  margin-top:6px;
-}
+    /* ========== App container ========== */
+    .app{
+      max-width:1200px;
+      margin:0 auto;
+      height:calc(100vh - 40px);
+      background:linear-gradient(var(--app-top) 55%, var(--app-bottom));
+      border-radius:24px;
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:18px;
+      padding:18px;
+      box-shadow:
+        0 var(--pixel-offset) 0 var(--sidebar-shadow),
+        0 calc(var(--pixel-offset)*2) 40px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
 
-/* ===== LESSON BUTTONS - PIXEL STYLE ===== */
-.lessons-list{
-  margin-top:16px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+    /* ========== Sidebar ========== */
+    .sidebar{
+      background:var(--sidebar-bg);
+      border-radius:18px;
+      padding:16px;
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      box-shadow:
+        inset calc(-1 * var(--pixel-offset)) calc(-1 * var(--pixel-offset)) 0 rgba(0,0,0,.25),
+        0 8px 0 var(--sidebar-shadow);
+    }
 
-.lessons-list button{
-  background:#ffcc4d;
-  border:3px solid #e09c2b;
-  padding:10px 10px;
-  border-radius:10px;
-  cursor:pointer;
-  color:#3b2a15;
-  font-size:8px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  box-shadow:
-    0 3px 0 #b5741b,
-    0 4px 0 #3b2a15;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  transition:transform 0.1s, box-shadow 0.1s, background 0.1s;
-}
+    .brand{text-align:center}
+    .brand h1{margin:0;font-size:1rem;text-shadow:2px 2px #000}
+    .brand p{font-size:.6rem;margin-top:6px;opacity:.95}
 
-.lessons-list button:hover{
-  transform:translateY(-2px);
-  box-shadow:
-    0 5px 0 #b5741b,
-    0 6px 0 #3b2a15;
-  background:#ffe38a;
-}
+    nav.lessons{display:flex;flex-direction:column;gap:10px;margin-top:6px}
 
-.lessons-list button:active{
-  transform:translateY(1px);
-  box-shadow:
-    0 1px 0 #b5741b,
-    0 2px 0 #3b2a15;
-  background:#f5b93a;
-}
+    .lesson-btn{
+      display:flex;gap:10px;align-items:center;
+      background:var(--accent-yellow); color:#3b2a15;
+      padding:10px 10px;border-radius:10px;border:3px solid var(--accent-yellow-dark);
+      cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-size:.65rem;
+      box-shadow:0 3px 0 #b5741b, 0 6px 0 #3b2a15; transition:transform .08s, box-shadow .08s;
+      outline:none;
+    }
+    .lesson-btn:hover,.lesson-btn:focus{ transform:translateY(-3px); box-shadow:0 5px 0 #b5741b,0 8px 0 #3b2a15; }
+    .lesson-btn:active{ transform:translateY(1px); box-shadow:0 1px 0 #b5741b,0 2px 0 #3b2a15; }
+    .lesson-btn.active{ background:#ffe89c; border-color:#fff7c9; }
+    .num{ background:#3b2a15; color:#ffd966; padding:6px 8px; border-radius:6px; font-size:.6rem; min-width:34px; text-align:center; }
 
-.lessons-list button.active{
-  background:#ffe89c;
-  border-color:#fff7c9;
-}
+    /* ========== Main content ========== */
+    main.content{
+      background:#e8f4ff; border-radius:18px; padding:18px; display:flex; flex-direction:column;
+      box-shadow: inset -6px -6px 0 rgba(0,0,0,.08), 0 8px 0 #6fa8dc; min-width:0;
+    }
 
-.num{
-  background:#3b2a15;
-  color:#ffd966;
-  padding:4px 7px;
-  border-radius:6px;
-  box-shadow:0 2px 0 #1e1309;
-  font-size:8px;
-}
+    .content-head{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .title{ font-size:1rem; text-shadow:2px 2px #fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding-right:8px; }
 
-/* ===== CONTENT ===== */
-.content{
-  background:#e8f4ff;
-  border-radius:18px;
-  padding:16px;
-  box-shadow:
-    inset -6px -6px 0 rgba(0,0,0,.15),
-    0 8px 0 #6fa8dc;
-  display:flex;
-  flex-direction:column;
-}
+    .header-controls{ display:flex; gap:8px; align-items:center; }
+    .btn{ font-family:var(--font); background:var(--accent-blue); color:#fff; border:3px solid var(--accent-blue-dark);
+      padding:8px 10px; border-radius:8px; cursor:pointer; box-shadow:0 3px 0 #16347a, 0 6px 0 #0c1b3a; font-size:.65rem; transition:transform .08s; outline:none; }
+    .btn:hover{ transform:translateY(-3px); }
+    .exit-btn{ background:#ff4d4d; color:#fff; border-radius:8px; padding:8px 10px; text-decoration:none; border:3px solid #a30000; box-shadow: inset -2px -2px 0 rgba(0,0,0,.25), 0 3px 0 #800000; font-size:.65rem; }
 
-/* ===== HEADER ===== */
-.content-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:14px;
-}
+    /* ========== Panel wrap and panels ========== */
+    .panel-wrap{ flex:1; position:relative; overflow:hidden; min-height:0; }
+    .lesson-panel{ position:absolute; inset:0; padding:16px; overflow:auto; display:none; transition:opacity .25s ease, transform .25s ease; background:transparent; }
+    .lesson-panel.visible{ display:block; opacity:1; transform:translateY(0); }
+    .lesson-panel.hidden{ opacity:0; transform:translateY(6px); }
 
-.content-head .title{
-  font-size:12px;
-  text-shadow:2px 2px #fff;
-}
+    .lesson-panel h1{ font-size:1.05rem; margin-bottom:6px; }
+    .lesson-panel .meta{ font-size:.7rem; color:#555; margin-bottom:12px; }
 
-/* ===== NAV BUTTONS - PIXEL STYLE ===== */
-.content-head button{
-  font-family:'Press Start 2P';
-  background:#4e91ff;
-  color:#fff;
-  border:3px solid #1f4fb8;
-  padding:6px 10px;
-  border-radius:8px;
-  box-shadow:
-    0 3px 0 #16347a,
-    0 4px 0 #0c1b3a;
-  cursor:pointer;
-  font-size:8px;
-  transition:transform 0.1s, box-shadow 0.1s, background 0.1s;
-}
+    .explain{
+      background:#fff3cd; border:3px solid #c9a227; padding:14px; border-radius:12px; margin-bottom:14px; line-height:1.5; font-size:.95rem;
+    }
 
-.content-head button:hover{
-  transform:translateY(-2px);
-  background:#6aa7ff;
-  box-shadow:
-    0 5px 0 #16347a,
-    0 6px 0 #0c1b3a;
-}
+    /* ========== CODE (light, colored to match theme) ========== */
+    .code{
+      background:var(--code-bg); color:var(--code-fg); padding:14px; border-radius:12px; margin-bottom:14px;
+      overflow:auto; position:relative; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+      font-size:.85rem; border:4px solid rgba(0,0,0,.06); box-shadow:0 4px 0 rgba(0,0,0,.08), inset -4px -4px 0 rgba(0,0,0,.04);
+    }
 
-.content-head button:active{
-  transform:translateY(1px);
-  background:#3f7aed;
-  box-shadow:
-    0 1px 0 #16347a,
-    0 2px 0 #0c1b3a;
-}
+    .code pre{ margin:0; white-space:pre-wrap; word-break:break-word; color:var(--code-fg); }
 
-/* ===== PANELS ===== */
-.panel-wrap{
-  flex:1;
-  position:relative;
-}
+    /* simple "syntax" colors to make tags/attrs/values readable and consistent with the palette */
+    .code .tag { color: var(--accent-blue); font-weight:700; }
+    .code .attr { color: var(--accent-yellow-dark); }
+    .code .val { color: var(--accent-green); }
+    .code .comment { color:#6b6b6b; font-style:italic; }
 
-.lesson-panel{
-  position:absolute;
-  inset:0;
-  padding:16px;
-  overflow:auto;
-  display:none;
-}
+    .copy-btn{
+      position:absolute; top:10px; right:10px; background:#ffd966; color:#000; border:2px solid #b59b24; padding:6px 8px; border-radius:6px; cursor:pointer; font-size:.7rem; box-shadow:0 2px 0 #7a6515; transition:transform .08s; outline:none;
+    }
+    .copy-btn:hover{ transform:translateY(-2px); } .copy-btn:active{ transform:translateY(1px); }
 
-.lesson-panel.visible{display:block}
+    .demo{ background:#d9ead3; border:3px solid #6aa84f; padding:14px; border-radius:12px; margin-bottom:14px; font-size:.95rem; }
+    .demo .demo-box{ background:#fff; padding:12px; border-radius:8px; color:#000; margin-top:8px; }
+    .demo button{ background:var(--accent-green); color:#003322; border:3px solid #00805c; padding:8px 12px; border-radius:10px; box-shadow:0 3px 0 #00563f, 0 4px 0 #001f16; cursor:pointer; font-size:.8rem; margin-top:10px; }
 
-/* ===== LESSON CONTENT ===== */
-.lesson-panel h1{
-  font-size:14px;
-  margin-bottom:6px;
-}
+    .lesson-btn:focus, .btn:focus, .copy-btn:focus, .demo button:focus, .exit-btn:focus { outline:3px solid rgba(255,255,255,.12); outline-offset:3px; }
 
-.lesson-panel h2{
-  font-size:11px;
-  margin-bottom:8px;
-}
+    /* ========== Responsive ========== */
+    @media (max-width:900px){
+      .app{ grid-template-columns:1fr; grid-template-rows:auto 1fr; padding:12px; gap:12px; }
+      .sidebar{ flex-direction:row; align-items:center; justify-content:space-between; padding:10px; border-radius:12px; }
+      nav.lessons{ flex-direction:row; gap:8px; overflow:auto; }
+      .lesson-btn{ min-width:110px; white-space:nowrap; }
+    }
+    @media (max-width:420px){ :root{ --base-font:12px; } .lesson-btn{ padding:8px 8px; font-size:.6rem; } .num{ min-width:30px; padding:5px 6px; } }
 
-.meta{
-  font-size:8px;
-  opacity:.7;
-  margin-bottom:16px;
-}
-
-/* ===== BOXES ===== */
-.explain{
-  background:#fff3cd;
-  border:3px solid #c9a227;
-  padding:14px;
-  border-radius:12px;
-  margin-bottom:14px;
-  line-height:1.6;
-}
-
-.code{
-  background:#1e1e1e;
-  color:#00ff90;
-  padding:14px;
-  border-radius:12px;
-  margin-bottom:14px;
-  overflow:auto;
-  position:relative;
-}
-
-/* ===== COPY BUTTON - PIXEL STYLE ===== */
-.code button.copy-btn{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:#ffd966;
-  color:#000;
-  border:2px solid #b59b24;
-  padding:4px 6px;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:7px;
-  box-shadow:0 2px 0 #7a6515;
-  transition:transform 0.1s, box-shadow 0.1s, background 0.1s;
-}
-
-.code button.copy-btn:hover{
-  transform:translateY(-1px);
-  background:#fff1a8;
-  box-shadow:0 3px 0 #7a6515;
-}
-
-.code button.copy-btn:active{
-  transform:translateY(1px);
-  box-shadow:0 1px 0 #7a6515;
-  background:#f2c93a;
-}
-
-.demo{
-  background:#d9ead3;
-  border:3px solid #6aa84f;
-  padding:14px;
-  border-radius:12px;
-  margin-bottom:14px;
-}
-
-/* ===== DEMO BUTTONS - PIXEL STYLE ===== */
-.demo button{
-  font-family:'Press Start 2P';
-  background:#00c98b;
-  color:#003322;
-  border:3px solid #00805c;
-  padding:8px 12px;
-  border-radius:10px;
-  box-shadow:
-    0 3px 0 #00563f,
-    0 4px 0 #001f16;
-  cursor:pointer;
-  font-size:8px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  margin-top:8px;
-  transition:transform 0.1s, box-shadow 0.1s, background 0.1s;
-}
-
-.demo button:hover{
-  transform:translateY(-2px);
-  background:#29e2aa;
-  box-shadow:
-    0 5px 0 #00563f,
-    0 6px 0 #001f16;
-}
-
-.demo button:active{
-  transform:translateY(1px);
-  background:#00b27a;
-  box-shadow:
-    0 1px 0 #00563f,
-    0 2px 0 #001f16;
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:900px){
-  .app{
-    grid-template-columns:1fr;
-    grid-template-rows:auto 1fr;
-  }
-}
-</style>
+  </style>
 </head>
-
 <body>
-<div class="app">
-  <aside class="sidebar">
-    <div class="brand">
-      <h1>🧠 Pixel HTML</h1>
-      <p>Page Setup & Text</p>
-    </div>
-    <div class="lessons-list">
-      <button data-lesson="topic-1" class="active"><span class="num">01</span> HTML Structure</button>
-      <button data-lesson="topic-2"><span class="num">02</span> Head & Body</button>
-      <button data-lesson="topic-3"><span class="num">03</span> Tags & Nesting</button>
-      <button data-lesson="topic-4"><span class="num">04</span> Your Challenge</button>
-    </div>
-  </aside>
-
-  <main class="content">
-    <div class="content-head">
-      <a href="../../../Webside/Student.html" class="exit-btn">EXIT</a>
-      <div class="title" id="panel-title">01 • HTML Structure</div>
-      <div>
-        <button id="prevLesson">◀</button>
-        <button id="nextLesson">▶</button>
+  <div class="app" id="app">
+    <aside class="sidebar" aria-label="Lessons sidebar">
+      <div class="brand" aria-hidden="true">
+        
+        <p>Page Setup &amp; Text</p>
       </div>
-    </div>
 
-    <div class="panel-wrap">
-      <!-- TOPIC 1 -->
-      <article id="topic-1" class="lesson-panel visible">
-        <h1>HTML Structure</h1>
-        <div class="meta">Lesson 1</div>
-        <div class="explain">
-          HTML (HyperText Markup Language) gives structure to a web page. Every HTML file starts with a <strong>doctype</strong>, followed by <strong>html</strong>, <strong>head</strong>, and <strong>body</strong> tags.
-        </div>
-        <div class="code">
-          <button class="copy-btn">Copy</button>
-<pre>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;My First Webpage&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1&gt;Hello World!&lt;/h1&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</pre>
-        </div>
-        <div class="demo">
-          <p>Try it below:</p>
-          <div style="background:#fff;padding:10px;border-radius:8px;color:#000;">
-            <h1>Hello World!</h1>
+      <nav class="lessons" role="tablist" aria-label="Lesson list">
+        <button id="lesson-1" class="lesson-btn active" role="tab" aria-selected="true" data-lesson="topic-1" data-title="HTML Structure">
+          <span class="num">01</span><span class="label">HTML Structure</span>
+        </button>
+
+        <button id="lesson-2" class="lesson-btn" role="tab" aria-selected="false" data-lesson="topic-2" data-title="Head &amp; Body">
+          <span class="num">02</span><span class="label">Head &amp; Body</span>
+        </button>
+
+        <button id="lesson-3" class="lesson-btn" role="tab" aria-selected="false" data-lesson="topic-3" data-title="Tags &amp; Nesting">
+          <span class="num">03</span><span class="label">Tags &amp; Nesting</span>
+        </button>
+
+        <button id="lesson-4" class="lesson-btn" role="tab" aria-selected="false" data-lesson="topic-4" data-title="Your Challenge">
+          <span class="num">04</span><span class="label">Your Challenge</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="content" id="main" role="main">
+      <div class="content-head">
+        <div class="title" id="panel-title">01 • HTML Structure</div>
+
+        <div class="header-controls" aria-hidden="false">
+          <div>
+            <button class="btn" id="prevLesson" aria-label="Previous lesson">◀</button>
+            <button class="btn" id="nextLesson" aria-label="Next lesson">▶</button>
           </div>
+          <a class="exit-btn" href="../../../Webside/Student.html" id="exitBtn">EXIT</a>
         </div>
-      </article>
+      </div>
 
-      <!-- TOPIC 2 - CORRECTED -->
-      <article id="topic-2" class="lesson-panel">
-        <h1>Head & Body</h1>
-        <div class="meta">Lesson 1</div>
-        <div class="explain">
-          The <strong>head</strong> contains <strong>invisible</strong> info (title, CSS links, meta). The <strong>body</strong> shows <strong>visible content only</strong>.
-        </div>
-        <div class="code">
-          <button class="copy-btn">Copy</button>
-<pre>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;My Webpage&lt;/title&gt;  ← Tab title only
-    &lt;link rel="stylesheet" href="style.css"&gt; ← Styles
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1&gt;Welcome!&lt;/h1&gt;  ← Visible!
-    &lt;p&gt;This shows up.&lt;/p&gt;  ← Visible!
-  &lt;/body&gt;
-&lt;/html&gt;</pre>
-        </div>
-        <div class="demo">
-          <p><strong>Browser Result:</strong></p>
-          <div style="background:#fff;padding:12px;border-radius:8px;color:#000;border-left:4px solid #00c98b;">
-            <h1 style="margin:0 0 8px 0;">Welcome!</h1>
-            <p>This shows up.</p>
+      <section class="panel-wrap" id="panelWrap">
+        <!-- TOPIC 1 -->
+        <article id="topic-1" class="lesson-panel visible" role="tabpanel" aria-labelledby="lesson-1">
+          <h1>HTML Structure</h1>
+          <div class="meta">Lesson 1 • What each part does</div>
+
+          <div class="explain">
+            Clear step-by-step:
+            <ol style="margin:8px 0 0 18px; font-family:inherit; font-size:.9rem;">
+              <li><strong>Doctype</strong> — tells the browser this is an HTML file: &lt;!DOCTYPE html&gt;.</li>
+              <li><strong>&lt;html&gt;</strong> — the root element that wraps the whole page.</li>
+              <li><strong>&lt;head&gt;</strong> — invisible information the browser uses (title, meta, links).</li>
+              <li><strong>&lt;body&gt;</strong> — everything the user sees on the page (text, images, buttons).</li>
+            </ol>
+            Short tip: the head is for the browser; the body is for the person using the page.
           </div>
-          <p style="font-size:7px;color:#666;margin-top:8px;">
-            <strong>Tab shows:</strong> "My Webpage" 👆 (head works!)
-          </p>
-          <button onclick="alert('Head: Title=\'My Webpage\', CSS loaded\nBody: Welcome! + paragraph visible')">What Browser Sees</button>
-        </div>
-      </article>
 
-      <!-- TOPIC 3 -->
-      <article id="topic-3" class="lesson-panel">
-        <h1>Tags & Nesting</h1>
-        <div class="meta">Lesson 1</div>
-        <div class="explain">
-          HTML uses opening and closing <strong>tags</strong>. Tags can be <strong>nested</strong> inside each other, but they must close in the correct order.
-        </div>
-        <div class="code">
-          <button class="copy-btn">Copy</button>
-<pre>&lt;div&gt;
-  &lt;p&gt;This is &lt;strong&gt;nested&lt;/strong&gt; text.&lt;/p&gt;
-&lt;/div&gt;</pre>
-        </div>
-        <div class="demo">
-          <div style="background:#fff;padding:10px;border-radius:8px;color:#000;">
-            <p>This is <strong>nested</strong> text.</p>
+          <div class="code" aria-label="Code example — simple, colored, and readable">
+            <button class="copy-btn" aria-label="Copy code">Copy</button>
+
+            <!-- Use spans and escaped angle brackets so the result looks like HTML but uses theme colors -->
+            <pre><code>&lt;<span class="tag">!DOCTYPE</span> html&gt;
+&lt;<span class="tag">html</span> <span class="attr">lang</span>=<span class="val">"en"</span>&gt;
+  &lt;<span class="tag">head</span>&gt;
+    &lt;<span class="tag">meta</span> <span class="attr">charset</span>=<span class="val">"utf-8"</span>&gt;
+    &lt;<span class="tag">title</span>&gt;My First Webpage&lt;/<span class="tag">title</span>&gt;
+  &lt;/<span class="tag">head</span>&gt;
+  &lt;<span class="tag">body</span>&gt;
+    &lt;<span class="tag">h1</span>&gt;Hello World!&lt;/<span class="tag">h1</span>&gt;
+    &lt;<span class="tag">p</span>&gt;This is my first page. Welcome!&lt;/<span class="tag">p</span>&gt;
+  &lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;</code></pre>
           </div>
-        </div>
-      </article>
 
-      <!-- TOPIC 4 -->
-      <article id="topic-4" class="lesson-panel">
-        <h1>Your Challenge</h1>
-        <div class="meta">Lesson 1</div>
-        <div class="explain">
-          Create a simple webpage using <strong>html</strong>, <strong>head</strong>, <strong>body</strong>, and nested tags. Add your name as the title and a short introduction inside the body.
-        </div>
-        <div class="code">
-          <button class="copy-btn">Copy</button>
-<pre>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;[Your Name]&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1&gt;Welcome to My Page&lt;/h1&gt;
-    &lt;p&gt;Hi! I'm [Your Name] and this is my first webpage.&lt;/p&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</pre>
-        </div>
-        <div class="demo">
-          <p>Replace [Your Name] with your actual name!</p>
-          <div style="background:#fff;padding:10px;border-radius:8px;color:#000;">
-            <h1>Welcome to My Page</h1>
-            <p>Hi! I'm [Your Name] and this is my first webpage.</p>
+          <div class="demo">
+            <div>Result (how the browser shows the body):</div>
+            <div class="demo-box" aria-hidden="true">
+              <h1 style="margin:0">Hello World!</h1>
+              <p style="margin:6px 0 0 0">This is my first page. Welcome!</p>
+            </div>
           </div>
-        </div>
-      </article>
-    </div>
-  </main>
-</div>
+        </article>
 
-<script>
-// Lesson navigation
-const buttons = document.querySelectorAll('.lessons-list button');
-const panels = document.querySelectorAll('.lesson-panel');
-const title = document.getElementById('panel-title');
+        <!-- TOPIC 2 -->
+        <article id="topic-2" class="lesson-panel hidden" role="tabpanel" aria-labelledby="lesson-2" aria-hidden="true">
+          <h1>Head &amp; Body</h1>
+          <div class="meta">Lesson 2 • Invisible vs visible</div>
 
-function showLesson(id){
-  panels.forEach(p=>p.classList.remove('visible'));
-  buttons.forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('visible');
-  const btn = document.querySelector(`.lessons-list button[data-lesson="${id}"]`);
-  btn.classList.add('active');
-  title.textContent = btn.querySelector('.num').textContent + ' • ' + btn.textContent.replace(/^\d+\s+/,'');
-}
+          <div class="explain">
+            Quick and friendly:
+            <ul style="margin:8px 0 0 18px; font-family:inherit; font-size:.9rem;">
+              <li><strong>Head</strong> holds the page title (shows in browser tab), links to styles, and useful metadata.</li>
+              <li><strong>Body</strong> holds headings, paragraphs, images — everything a person sees.</li>
+            </ul>
+            Example: changing the title does not change the page text — it changes the browser tab.
+          </div>
 
-buttons.forEach(b=>b.onclick=()=>showLesson(b.dataset.lesson));
+          <div class="code">
+            <button class="copy-btn" aria-label="Copy code">Copy</button>
+            <pre><code>&lt;<span class="tag">html</span>&gt;
+  &lt;<span class="tag">head</span>&gt;
+    &lt;<span class="tag">title</span>&gt;My Webpage&lt;/<span class="tag">title</span>&gt; <span class="comment">&lt;!-- shows in the browser tab --&gt;</span>
+    &lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span>&gt;
+  &lt;/<span class="tag">head</span>&gt;
+  &lt;<span class="tag">body</span>&gt;
+    &lt;<span class="tag">h1</span>&gt;Welcome!&lt;/<span class="tag">h1</span>&gt;
+    &lt;<span class="tag">p</span>&gt;This shows up on the page.&lt;/<span class="tag">p</span>&gt;
+  &lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;</code></pre>
+          </div>
 
-const order=[...buttons].map(b=>b.dataset.lesson);
-const current=()=>order.indexOf(document.querySelector('.lesson-panel.visible').id);
-document.getElementById('prevLesson').onclick=()=>{let i=current(); if(i>0) showLesson(order[i-1]);};
-document.getElementById('nextLesson').onclick=()=>{let i=current(); if(i<order.length-1) showLesson(order[i+1]);};
+          <div class="demo">
+            <p><strong>Browser result:</strong></p>
+            <div class="demo-box" style="border-left:4px solid #00c98b">
+              <h1 style="margin:0">Welcome!</h1>
+              <p style="margin:6px 0 0 0">This shows up on the page.</p>
+            </div>
+            <button class="btn" onclick="alert('Head: title=My Webpage\\nBody: visible content (Welcome + paragraph)')">What Browser Sees</button>
+          </div>
+        </article>
 
-// Copy buttons
-document.querySelectorAll('.copy-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-        const code = btn.nextElementSibling.innerText;
-        navigator.clipboard.writeText(code).then(()=>{
-            btn.innerText='✔ Copied!';
-            setTimeout(()=>btn.innerText='Copy',1500);
-        });
+        <!-- TOPIC 3 -->
+        <article id="topic-3" class="lesson-panel hidden" role="tabpanel" aria-labelledby="lesson-3" aria-hidden="true">
+          <h1>Tags &amp; Nesting</h1>
+          <div class="meta">Lesson 3 • Structure rules</div>
+
+          <div class="explain">
+            Important rules for tags:
+            <ul style="margin:8px 0 0 18px; font-family:inherit; font-size:.9rem;">
+              <li>Most tags have an opening and a closing form: &lt;tag&gt; ... &lt;/tag&gt;.</li>
+              <li>When one tag is inside another, they must close in the reverse order (last opened, first closed).</li>
+            </ul>
+          </div>
+
+          <div class="code">
+            <button class="copy-btn" aria-label="Copy code">Copy</button>
+            <pre><code>&lt;<span class="tag">div</span>&gt;
+  &lt;<span class="tag">p</span>&gt;This is &lt;<span class="tag">strong</span>&gt;nested&lt;/<span class="tag">strong</span>&gt; text.&lt;/<span class="tag">p</span>&gt;
+&lt;/<span class="tag">div</span>&gt;</code></pre>
+          </div>
+
+          <div class="demo">
+            <div class="demo-box" aria-hidden="true">
+              <p style="margin:0">This is <strong>nested</strong> text.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- TOPIC 4 -->
+        <article id="topic-4" class="lesson-panel hidden" role="tabpanel" aria-labelledby="lesson-4" aria-hidden="true">
+          <h1>Your Challenge</h1>
+          <div class="meta">Lesson 4 • Practice</div>
+
+          <div class="explain">
+            Try this small task:
+            <ol style="margin:8px 0 0 18px; font-family:inherit; font-size:.9rem;">
+              <li>Set the page title to your name.</li>
+              <li>Inside the body add an &lt;h1&gt; with a greeting and a &lt;p&gt; with a short intro.</li>
+            </ol>
+            Replace the placeholders with your real name — then open the file in a browser to see the tab title and the page content.
+          </div>
+
+          <div class="code">
+            <button class="copy-btn" aria-label="Copy code">Copy</button>
+            <pre><code>&lt;<span class="tag">!DOCTYPE</span> html&gt;
+&lt;<span class="tag">html</span>&gt;
+  &lt;<span class="tag">head</span>&gt;
+    &lt;<span class="tag">title</span>&gt;Your Name Here&lt;/<span class="tag">title</span>&gt;
+  &lt;/<span class="tag">head</span>&gt;
+  &lt;<span class="tag">body</span>&gt;
+    &lt;<span class="tag">h1</span>&gt;Hello — I'm Your Name!&lt;/<span class="tag">h1</span>&gt;
+    &lt;<span class="tag">p</span>&gt;A short sentence about me.&lt;/<span class="tag">p</span>&gt;
+  &lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;</code></pre>
+          </div>
+
+          <div class="demo">
+            <p>When you're done, save as <code>index.html</code> and open in a browser to check the title and the page content.</p>
+            <div class="demo-box" aria-hidden="true">
+              <h1 style="margin:0">Hello — I'm Your Name!</h1>
+              <p style="margin:6px 0 0 0">A short sentence about me.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <!-- Live region for announcements -->
+  <div id="aria-live" aria-live="polite" style="position:fixed;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"></div>
+
+  <script>
+    // DOM shortcuts
+    const lessonButtons = Array.from(document.querySelectorAll('.lesson-btn'));
+    const panels = Array.from(document.querySelectorAll('.lesson-panel'));
+    const titleEl = document.getElementById('panel-title');
+    const order = lessonButtons.map(b => b.dataset.lesson);
+
+    // Show lesson by id
+    function showLesson(id, focusButton = false){
+      panels.forEach(p=>{
+        if(p.id === id){
+          p.classList.remove('hidden'); p.classList.add('visible');
+          p.setAttribute('aria-hidden','false');
+        } else {
+          p.classList.remove('visible'); p.classList.add('hidden');
+          p.setAttribute('aria-hidden','true');
+        }
+      });
+
+      lessonButtons.forEach(btn=>{
+        const selected = btn.dataset.lesson === id;
+        btn.classList.toggle('active', selected);
+        btn.setAttribute('aria-selected', selected ? 'true' : 'false');
+      });
+
+      // update header title
+      const btn = document.querySelector(`.lesson-btn[data-lesson="${id}"]`);
+      const num = btn.querySelector('.num').textContent.trim();
+      const label = btn.dataset.title || btn.querySelector('.label').textContent.trim();
+      titleEl.textContent = `${num} • ${label}`;
+
+      if(focusButton) btn.focus();
+    }
+
+    // init event handlers
+    lessonButtons.forEach(btn=>{
+      const id = btn.dataset.lesson;
+
+      // click
+      btn.addEventListener('click', ()=> showLesson(id, true));
+
+      // keyboard (Enter/Space)
+      btn.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          showLesson(id, true);
+        }
+        // allow arrow navigation
+        if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+          e.preventDefault();
+          const i = order.indexOf(id);
+          if(i < order.length - 1) lessonButtons[i+1].focus();
+        }
+        if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+          e.preventDefault();
+          const i = order.indexOf(id);
+          if(i > 0) lessonButtons[i-1].focus();
+        }
+      });
     });
-});
-</script>
+
+    // Prev / Next buttons
+    const prevBtn = document.getElementById('prevLesson');
+    const nextBtn = document.getElementById('nextLesson');
+
+    function currentIndex(){
+      const visible = panels.find(p => p.classList.contains('visible'));
+      return order.indexOf(visible.id);
+    }
+
+    prevBtn.addEventListener('click', ()=>{
+      const i = currentIndex();
+      if(i > 0) showLesson(order[i-1], true);
+    });
+    nextBtn.addEventListener('click', ()=>{
+      const i = currentIndex();
+      if(i < order.length - 1) showLesson(order[i+1], true);
+    });
+
+    // Copy code functionality with fallback and ARIA announcement
+    const liveRegion = document.getElementById('aria-live');
+    document.querySelectorAll('.code').forEach(codeBlock => {
+      const btn = codeBlock.querySelector('.copy-btn');
+      const pre = codeBlock.querySelector('pre');
+
+      btn.addEventListener('click', async () => {
+        const text = pre.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = '✔ Copied!';
+          liveRegion.textContent = 'Code copied to clipboard';
+        } catch (err) {
+          // Fallback method
+          try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            btn.textContent = '✔ Copied!';
+            liveRegion.textContent = 'Code copied to clipboard';
+          } catch (err2) {
+            btn.textContent = 'Copy';
+            liveRegion.textContent = 'Copy failed';
+            alert('Copy failed. Please select the code manually and copy.');
+            return;
+          }
+        }
+        setTimeout(()=> btn.textContent = 'Copy', 1400);
+      });
+    });
+
+    // Initial state: ensure only first visible
+    showLesson(order[0]);
+
+    // Remember last viewed lesson
+    window.addEventListener('beforeunload', ()=>{
+      const i = currentIndex();
+      if(i >= 0) localStorage.setItem('lastLessonIndex', String(i));
+    });
+    window.addEventListener('load', ()=>{
+      const idx = parseInt(localStorage.getItem('lastLessonIndex'), 10);
+      if(!isNaN(idx) && idx >= 0 && idx < order.length){
+        showLesson(order[idx]);
+      }
+    });
+  </script>
 </body>
 </html>
