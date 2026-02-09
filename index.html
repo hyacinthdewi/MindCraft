@@ -133,10 +133,21 @@ button{
 button:hover{transform:translateY(-3px)}
 button:active{transform:translateY(6px)}
 
-/* ===== AUTH ===== */
-.auth-section{
+/* ===== TOP BUTTONS SECTION ===== */
+.top-buttons{
+  position:absolute;
+  top:50px;
   display:none;
-  margin-top:40px;
+  gap:20px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+/* ===== BOTTOM BUTTONS SECTION ===== */
+.bottom-buttons{
+  position:absolute;
+  bottom:50px;
+  display:flex;
   gap:20px;
   flex-wrap:wrap;
   justify-content:center;
@@ -956,12 +967,15 @@ body.dark .toggle-label{color:#e6dccf;}
   <div class="home-title">MindCraft</div>
   <div class="home-sub">Learn • Play • Master Your Mind</div>
 
-  <button id="startBtn">Start Journey</button>
-  <button id="settingsBtn">Settings</button>
+  <div class="top-buttons" id="topButtons">
+    <button id="loginBtn">Login</button>
+    <button id="signupBtn">Sign Up</button>
+  </div>
 
-  <div class="auth-section" id="authSection">
-    <button>Login</button>
-    <button>Sign Up</button>
+  <button id="startBtn">Start Journey</button>
+
+  <div class="bottom-buttons" id="bottomButtons">
+    <button id="settingsBtn">Settings</button>
   </div>
 </div>
 
@@ -1018,9 +1032,9 @@ body.dark .toggle-label{color:#e6dccf;}
 </div>
 
 <script>
-// ===== AUTH & START BUTTON =====
+// ===== SHOW/HIDE AUTH BUTTONS =====
 document.getElementById("startBtn").onclick = () => {
-  document.getElementById("authSection").style.display="flex";
+  document.getElementById("topButtons").style.display="flex";
   document.getElementById("startBtn").style.display="none";
 };
 
